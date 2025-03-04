@@ -1,0 +1,55 @@
+cmake_minimum_required(VERSION 3.10)
+project(infra)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+include(ExternalProject)
+
+# WebSocket++
+ExternalProject_Add(websocketpp
+    GIT_REPOSITORY https://github.com/zaphoyd/websocketpp.git
+    GIT_TAG 0.8.2
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ""
+    INSTALL_COMMAND ""
+    UPDATE_COMMAND ""
+)
+ExternalProject_Get_Property(websocketpp source_dir)
+set(WEBSOCKETPP_INCLUDE_DIR ${source_dir})
+
+# Boost (necessário para WebSocket++)
+find_package(Boost 1.66.0 COMPONENTS system REQUIRED)
+
+# Asio (standalone)
+ExternalProject_Add(asio
+    GIT_REPOSITORY https://github.com/chriskohlhoff/asio.git
+    GIT_TAG asio-1-12-2
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ""
+    INSTALL_COMMAND ""
+    UPDATE_COMMAND ""
+)
+ExternalProject_Get_Property(asio source_dir)
+set(ASIO_INCLUDE_DIR ${source_dir}/asio/include)
+
+# Buscar todos os arquivos .cpp e .hpp dinamicamente
+file(GLOB_RECURSE INFRA_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/sources/*.cpp")
+file(GLOB_RECURSE INFRA_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/includes/*.hpp")
+
+# Criar a biblioteca infra
+add_library(infra STATIC ${INFRA_SOURCES})
+
+# Definir diretórios de include
+target_include_directories(infra PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/includes
+    ${WEBSOCKETPP_INCLUDE_DIR}
+    ${ASIO_INCLUDE_DIR}
+    ${Boost_INCLUDE_DIRS}
+)
+
+# Linkar Boost
+target_link_libraries(infra PUBLIC Boost::system)
+
+# Garantir que WebSocket++ e Asio sejam baixados antes de compilar infra
+add_dependencies(infra websocketpp asio)

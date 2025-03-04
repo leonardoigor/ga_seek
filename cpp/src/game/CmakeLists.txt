@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.10)
+project(game)
+
+# Buscar todos os arquivos .cpp e .hpp dinamicamente
+file(GLOB_RECURSE GAME_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/sources/*.cpp")
+file(GLOB_RECURSE GAME_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/includes/*.hpp")
+
+# Criar a biblioteca GAME
+add_library(game STATIC ${GAME_SOURCES})
+
+# Definir diretórios de include
+target_include_directories(game PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/includes
+)
