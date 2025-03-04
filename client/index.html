@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seek Client</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #message-container {
+            height: 300px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .system-message {
+            color: #888;
+            font-style: italic;
+        }
+
+        .user-message {
+            color: #0066cc;
+        }
+
+        .received-message {
+            color: #006600;
+        }
+
+        input,
+        button {
+            padding: 8px;
+            margin-right: 5px;
+        }
+
+        input {
+            width: 70%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="message-container"></div>
+
+    <div id="connectionStatus" class="system-message">Disconnected</div>
+    <div>
+        <button id="connect-button">Connect</button>
+
+    </div>
+    <script src="./service.js"></script>
+</body>
+
+</html>

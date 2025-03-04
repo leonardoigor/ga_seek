@@ -10,11 +10,11 @@ int main()
     try
     {
         WebSocketServer server;
-        for (size_t i = 0; i < 5000; i++)
-        {
-            Game game;
-            game.update();
-        }
+        // for (size_t i = 0; i < 5000; i++)
+        // {
+        //     Game game;
+        //     game.update();
+        // }
 
         server.run(9002);
     }
